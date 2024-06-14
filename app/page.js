@@ -1,6 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+const winCombs = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6],
+];
 
 export default function Home() {
   const [userTurn, setUserTurn] = useState(true); // state of the user turn
@@ -15,12 +26,28 @@ export default function Home() {
     7: "",
     8: "",
   }); // state of each cell
+  const [winner, setWinner] = useState(false); // state of the winner
+
+  useEffect(() => {
+    checkWinner(boardState);
+  }, [boardState]);
 
   const updateBoard = (idx) => {
-    if (!boardState[idx]) {
+    if (!boardState[idx] && !winner) {
+      //will check whether specify idx is empty or not
       let value = userTurn === true ? "X" : "O";
       setBoardState({ ...boardState, [idx]: value });
       setUserTurn(!userTurn);
+    }
+  };
+
+  const checkWinner = (board) => {
+    for (let comb of winCombs) {
+      const [a, b, c] = comb;
+      if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+        setWinner(true);
+        console.log(winner);
+      }
     }
   };
 

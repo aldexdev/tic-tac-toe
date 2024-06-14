@@ -497,17 +497,17 @@ video {
   --tw-contain-paint:  ;
   --tw-contain-style:  ;
 }
+.static {
+  position: static;
+}
 .mb-2 {
   margin-bottom: 0.5rem;
-}
-.mt-1 {
-  margin-top: 0.25rem;
 }
 .mb-4 {
   margin-bottom: 1rem;
 }
-.mb-6 {
-  margin-bottom: 1.5rem;
+.mt-1 {
+  margin-top: 0.25rem;
 }
 .flex {
   display: flex;
@@ -555,9 +555,6 @@ video {
 }
 .text-\[64px\] {
   font-size: 64px;
-}
-.font-semibold {
-  font-weight: 600;
 }
 .font-bold {
   font-weight: 700;
