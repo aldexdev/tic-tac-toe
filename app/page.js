@@ -50,7 +50,7 @@ export default function Home() {
       if (board[a] && board[a] === board[b] && board[a] === board[c]) {
         setWinner(true);
         setWinnerCombo([a, b, c]);
-        setTitle(`${!userTurn ? "Victoria!" : "Derrota!"}`);
+        setTitle(`${!userTurn ? "VICTORIA!" : "DERROTA!"}`);
         return;
       }
       if (allFilled && !winner) {
@@ -85,6 +85,11 @@ export default function Home() {
       <div className="flex flex-col items-center">
         <div className="text-center text-2xl mb-2">
           <p>{userTurn === true ? "Es tu turno!" : "Turno de la IA"}</p>
+          <p
+            className={`text-sm mb-2 ${
+              !winner ? "text-green-600" : "text-red-600"
+            }`}
+          >{`${!winner ? "Juego en progreso" : "Partida finalizada"}`}</p>
         </div>
         <div className="grid grid-cols-[repeat(3,1fr)] gap-2">
           {[...Array(9)].map((v, idx) => {
@@ -108,20 +113,17 @@ export default function Home() {
           })}
         </div>
       </div>
-
-      <div
-        className={`w-[250px] shadow-[0px_0px_10px_0px_gray] flex flex-col items-center fixed bg-white -translate-x-2/4 -translate-y-2/4 transition-transform duration-[0.2s] p-6 rounded-2xl scale-0 left-2/4 top-1/4 ${
-          title ? "-translate-x-2/4 -translate-y-2/4 scale-100" : ""
-        }`}
-      >
-        <div className="text-xl font-bold mb-4">{title}</div>
-        <button
-          className="bg-black text-white w-full h-9 text-lg font-semibold border-none rounded-md drop-shadow-[0px_4px_#ddd] hover:drop-shadow-none"
-          onClick={reset}
-        >
-          Nuevo Juego
-        </button>
-      </div>
+      {winner ? (
+        <div className="flex flex-col items-center mt-6">
+          <p className="text-xl font-bold mb-4">{title}</p>
+          <button
+            className="bg-black text-white w-[200px] h-9 text-lg font-semibold border-none rounded-md drop-shadow-[0px_4px_#ddd] hover:drop-shadow-none"
+            onClick={reset}
+          >
+            Nuevo Juego
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }
