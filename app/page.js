@@ -27,9 +27,10 @@ export default function Home() {
     8: "",
   }); // state of each cell
   const [winner, setWinner] = useState(false); // state of the winner
+  const [draw, setDraw] = useState(false); // state of draw
 
   useEffect(() => {
-    checkWinner(boardState);
+    checkResult(boardState);
   }, [boardState]);
 
   const updateBoard = (idx) => {
@@ -41,13 +42,15 @@ export default function Home() {
     }
   };
 
-  const checkWinner = (board) => {
+  const checkResult = (board) => {
+    // board is filled
+    const allFilled = Object.values(board).every((cell) => cell !== "");
     for (let comb of winCombs) {
       const [a, b, c] = comb;
       if (board[a] && board[a] === board[b] && board[a] === board[c]) {
         setWinner(true);
-        console.log(winner);
       }
+      if (allFilled && !winner) setDraw(true);
     }
   };
 
@@ -59,6 +62,7 @@ export default function Home() {
       <div className="flex flex-col items-center">
         <div className="text-center text-2xl mb-2">
           <p>{userTurn === true ? "Es tu turno!" : "Turno de la IA"}</p>
+          <p>{`Game Draw: ${draw}`}</p>
         </div>
         <div className="grid grid-cols-[repeat(3,1fr)] gap-2">
           {[...Array(9)].map((v, idx) => {
