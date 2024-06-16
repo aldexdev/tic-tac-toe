@@ -29,14 +29,37 @@ export default function Home() {
     8: "",
   });
   const [winner, setWinner] = useState(false);
+  const [draw, setDraw] = useState(false);
   const [title, setTitle] = useState("");
   const [winnerCombo, setWinnerCombo] = useState([]);
 
   const router = useRouter();
 
   useEffect(() => {
+    if (!userTurn) {
+      setTimeout(() => {
+        aiPlay(boardState);
+      }, 1000);
+    }
     checkResult(boardState);
-  }, [boardState]);
+  }, [boardState, userTurn]);
+
+  const aiPlay = async (board) => {
+    try {
+      const res = await fetch("http://localhost:3000/api/play", {
+        method: "POST",
+        body: JSON.stringify(board),
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+      const data = await res.json();
+      setBoardState(data);
+      setUserTurn(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const updateBoard = (idx) => {
     if (!boardState[idx] && !winner) {
@@ -58,6 +81,7 @@ export default function Home() {
         return;
       }
       if (allFilled && !winner) {
+        setDraw(true);
         setTitle("Empate!");
       }
     }
@@ -77,6 +101,7 @@ export default function Home() {
     });
     setUserTurn(true);
     setWinner(false);
+    setDraw(false);
     setWinnerCombo([]);
     setTitle("");
   };
@@ -95,9 +120,11 @@ export default function Home() {
           <p>{userTurn === true ? "Es tu turno!" : "Turno de la IA"}</p>
           <p
             className={`text-sm mb-2 ${
-              !winner ? "text-green-600" : "text-red-600"
+              !winner && !draw ? "text-green-600" : "text-red-600"
             }`}
-          >{`${!winner ? "Juego en progreso" : "Partida finalizada"}`}</p>
+          >{`${
+            winner || draw ? "Partida finalizada" : "Juego en progreso"
+          }`}</p>
         </div>
         <div className="grid grid-cols-[repeat(3,1fr)] gap-2">
           {[...Array(9)].map((v, idx) => {
@@ -121,7 +148,7 @@ export default function Home() {
           })}
         </div>
       </div>
-      {winner ? (
+      {winner || draw ? (
         <div className="flex flex-col items-center mt-6">
           <p className="text-xl font-bold mb-4">{title}</p>
           <Button text="Volver a Jugar" action={reset} />
