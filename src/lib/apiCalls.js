@@ -8,7 +8,7 @@ export const getRanking = async () => {
         "content-type": "application/json",
       },
     });
-    const data = res.json();
+    const data = await res.json();
     if (data) return data[0];
     return;
   } catch (error) {

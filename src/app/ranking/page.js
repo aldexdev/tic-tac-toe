@@ -11,12 +11,15 @@ export default function Component() {
 
   useEffect(() => {
     getRankingData();
-    console.log(ranking);
   }, []);
 
   const getRankingData = async () => {
     const rankingData = await getRanking();
     setRanking(rankingData);
+  };
+
+  const safeSum = (a, b, c) => {
+    return (a || 0) + (b || 0) + (c || 0);
   };
 
   return (
@@ -51,9 +54,11 @@ export default function Component() {
               <td className="px-4 py-3 text-right">{ranking?.playerX?.lost}</td>
               <td className="px-4 py-3 text-right">{ranking?.playerX?.tied}</td>
               <td className="px-4 py-3 text-right">
-                {ranking?.playerX?.won +
-                  ranking?.playerX?.lost +
-                  ranking?.playerX?.tied}
+                {safeSum(
+                  ranking?.playerX?.won +
+                    ranking?.playerX?.lost +
+                    ranking?.playerX?.tied
+                )}
               </td>
             </tr>
             <tr>
@@ -69,9 +74,11 @@ export default function Component() {
               <td className="px-4 py-3 text-right">{ranking?.playerO?.lost}</td>
               <td className="px-4 py-3 text-right">{ranking?.playerO?.tied}</td>
               <td className="px-4 py-3 text-right">
-                {ranking?.playerO?.won +
-                  ranking?.playerO?.lost +
-                  ranking?.playerO?.tied}
+                {safeSum(
+                  ranking?.playerO?.won +
+                    ranking?.playerO?.lost +
+                    ranking?.playerO?.tied
+                )}
               </td>
             </tr>
           </tbody>

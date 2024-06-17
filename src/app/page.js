@@ -76,7 +76,6 @@ export default function Home() {
     // state of the ranking at the moment
     const actualRanking = await getRanking();
     if (allFilled && !isWinner) {
-      console.log(userTurn);
       setIsWinner(true);
       setDraw(true);
       setTitle("EMPATE!");
@@ -87,7 +86,6 @@ export default function Home() {
       const [a, b, c] = comb;
       if (board[a] && board[a] === board[b] && board[a] === board[c]) {
         if (!userTurn) {
-          console.log(userTurn);
           setIsWinner(true);
           setWinnerCombo([a, b, c]);
           setTitle("VICTORIA!");
@@ -95,7 +93,6 @@ export default function Home() {
           return;
         }
         if (userTurn) {
-          console.log(userTurn);
           setIsWinner(true);
           setWinnerCombo([a, b, c]);
           setTitle("DERROTA!");
