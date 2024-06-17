@@ -32,10 +32,10 @@ export default function Component() {
   return (
     <div className="container mx-auto px-4 md:px-6 py-8">
       <div className="flex flex-col md:flex-row items-center justify-between mb-6">
-        <h1 className="font-bold mb-4 md:mb-0">Ranking</h1>
+        <h1 className="font-bold mb-4 md:mb-0 text-lg md:text-xl">Ranking</h1>
       </div>
-      <div className="border rounded-lg overflow-hidden">
-        <table className="w-full table-auto">
+      <div className="border rounded-lg overflow-x-auto">
+        <table className="w-full table-auto min-w-[600px]">
           <thead>
             <tr>
               <th className="w-[200px] px-4 py-3 text-left font-bold">
@@ -91,13 +91,15 @@ export default function Component() {
           </tbody>
         </table>
       </div>
-      <Button
-        text="Volver a Jugar"
-        action={(e) => {
-          e.preventDefault();
-          router.push("/");
-        }}
-      />
+      <div className="flex justify-center mt-6">
+        <Button
+          text="Volver a Jugar"
+          action={(e) => {
+            e.preventDefault();
+            router.push("/");
+          }}
+        />
+      </div>
     </div>
   );
 }

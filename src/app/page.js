@@ -126,29 +126,29 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col items-center mt-1 mb-4 font-bold">
-        <h1>Tres en Raya</h1>
+        <h1 className="text-2xl sm:text-3xl">Tres en Raya</h1>
       </div>
       <div className="flex flex-col items-center">
-        <div className="text-center text-2xl mb-2">
-          <p>{userTurn === true ? "Es tu turno!" : "Turno de la IA"}</p>
+        <div className="text-center text-xl sm:text-2xl mb-2">
+          <p>{userTurn === true ? "¡Es tu turno!" : "Turno de la IA"}</p>
           <p
             className={`text-sm mb-2 ${
               !isWinner && !draw ? "text-green-600" : "text-red-600"
             }`}
-          >{`${
-            isWinner || draw ? "Partida finalizada" : "Juego en progreso"
-          }`}</p>
+          >
+            {`${isWinner || draw ? "Partida finalizada" : "Juego en progreso"}`}
+          </p>
         </div>
-        <div className="grid grid-cols-[repeat(3,1fr)] gap-2">
+        <div className="grid grid-cols-3 gap-4 w-full max-w-[240px] sm:max-w-[320px] md:max-w-[400px] lg:max-w-[480px]">
           {[...Array(9)].map((v, idx) => {
             return (
               <div
                 key={idx}
                 className={`bg-[#eee] ${
                   userTurn ? "shadow-[0px_4px_#ddd]" : "shadow-none"
-                } text-center text-[64px] leading-[100px] font-[bold] w-[100px] h-[100px] cursor-pointer rounded-lg ${
+                } text-center text-[48px] sm:text-[64px] w-full pb-[100%] relative cursor-pointer rounded-lg ${
                   winnerCombo.includes(idx)
                     ? "bg-black text-white shadow-none"
                     : ""
@@ -157,7 +157,9 @@ export default function Home() {
                   updateBoard(idx);
                 }}
               >
-                {boardState[idx]}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  {boardState[idx]}
+                </div>
               </div>
             );
           })}
@@ -169,12 +171,14 @@ export default function Home() {
           <Button text="Volver a Jugar" action={reset} />
         </div>
       ) : null}
-      <Button
-        text="Ver Ranking"
-        action={() => {
-          router.push("/ranking");
-        }}
-      />
+      <div className="flex justify-center mt-6">
+        <Button
+          text="Ver Ranking"
+          action={() => {
+            router.push("/ranking");
+          }}
+        />
+      </div>
     </div>
   );
 }
