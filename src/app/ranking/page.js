@@ -1,13 +1,22 @@
 "use client";
 
 import Button from "@/components/Button";
+import { useState, useEffect } from "react";
+import { getRanking } from "@/lib/apiCalls";
 import { useRouter } from "next/navigation";
 
 export default function Component() {
+  const [ranking, setRanking] = useState({});
   const router = useRouter();
 
-  const playAgain = () => {
-    router.push("/");
+  useEffect(() => {
+    getRankingData();
+    console.log(ranking);
+  }, []);
+
+  const getRankingData = async () => {
+    const rankingData = await getRanking();
+    setRanking(rankingData);
   };
 
   return (
@@ -38,10 +47,14 @@ export default function Component() {
                   <span>Usuario</span>
                 </div>
               </td>
-              <td className="px-4 py-3 text-right">24</td>
-              <td className="px-4 py-3 text-right">12</td>
-              <td className="px-4 py-3 text-right">6</td>
-              <td className="px-4 py-3 text-right">42</td>
+              <td className="px-4 py-3 text-right">{ranking?.playerX?.won}</td>
+              <td className="px-4 py-3 text-right">{ranking?.playerX?.lost}</td>
+              <td className="px-4 py-3 text-right">{ranking?.playerX?.tied}</td>
+              <td className="px-4 py-3 text-right">
+                {ranking?.playerX?.won +
+                  ranking?.playerX?.lost +
+                  ranking?.playerX?.tied}
+              </td>
             </tr>
             <tr>
               <td className="px-4 py-3">
@@ -52,15 +65,25 @@ export default function Component() {
                   <span>IA</span>
                 </div>
               </td>
-              <td className="px-4 py-3 text-right">18</td>
-              <td className="px-4 py-3 text-right">15</td>
-              <td className="px-4 py-3 text-right">9</td>
-              <td className="px-4 py-3 text-right">42</td>
+              <td className="px-4 py-3 text-right">{ranking?.playerO?.won}</td>
+              <td className="px-4 py-3 text-right">{ranking?.playerO?.lost}</td>
+              <td className="px-4 py-3 text-right">{ranking?.playerO?.tied}</td>
+              <td className="px-4 py-3 text-right">
+                {ranking?.playerO?.won +
+                  ranking?.playerO?.lost +
+                  ranking?.playerO?.tied}
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <Button text="Volver a Jugar" action={playAgain} />
+      <Button
+        text="Volver a Jugar"
+        action={(e) => {
+          e.preventDefault();
+          router.push("/");
+        }}
+      />
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Button from "@/components/Button";
+import { getRanking, updateRanking } from "@/lib/apiCalls";
 
 const winCombs = [
   [0, 1, 2],
@@ -28,7 +29,7 @@ export default function Home() {
     7: "",
     8: "",
   });
-  const [winner, setWinner] = useState(false);
+  const [isWinner, setIsWinner] = useState(false);
   const [draw, setDraw] = useState(false);
   const [title, setTitle] = useState("");
   const [winnerCombo, setWinnerCombo] = useState([]);
@@ -62,27 +63,45 @@ export default function Home() {
   };
 
   const updateBoard = (idx) => {
-    if (!boardState[idx] && !winner) {
+    if (!boardState[idx] && !isWinner) {
       let value = userTurn === true ? "X" : "O";
       setBoardState({ ...boardState, [idx]: value });
       setUserTurn(!userTurn);
     }
   };
 
-  const checkResult = (board) => {
+  const checkResult = async (board) => {
     // board is filled
     const allFilled = Object.values(board).every((cell) => cell !== "");
+    // state of the ranking at the moment
+    const actualRanking = await getRanking();
+    if (allFilled && !isWinner) {
+      console.log(userTurn);
+      setIsWinner(true);
+      setDraw(true);
+      setTitle("EMPATE!");
+      await updateRanking("-", actualRanking);
+      return;
+    }
     for (let comb of winCombs) {
       const [a, b, c] = comb;
       if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-        setWinner(true);
-        setWinnerCombo([a, b, c]);
-        setTitle(`${!userTurn ? "VICTORIA!" : "DERROTA!"}`);
-        return;
-      }
-      if (allFilled && !winner) {
-        setDraw(true);
-        setTitle("Empate!");
+        if (!userTurn) {
+          console.log(userTurn);
+          setIsWinner(true);
+          setWinnerCombo([a, b, c]);
+          setTitle("VICTORIA!");
+          await updateRanking("X", actualRanking);
+          return;
+        }
+        if (userTurn) {
+          console.log(userTurn);
+          setIsWinner(true);
+          setWinnerCombo([a, b, c]);
+          setTitle("DERROTA!");
+          await updateRanking("O", actualRanking);
+          return;
+        }
       }
     }
   };
@@ -100,14 +119,10 @@ export default function Home() {
       8: "",
     });
     setUserTurn(true);
-    setWinner(false);
+    setIsWinner(false);
     setDraw(false);
     setWinnerCombo([]);
     setTitle("");
-  };
-
-  const showRanking = () => {
-    router.push("/ranking");
   };
 
   return (
@@ -120,10 +135,10 @@ export default function Home() {
           <p>{userTurn === true ? "Es tu turno!" : "Turno de la IA"}</p>
           <p
             className={`text-sm mb-2 ${
-              !winner && !draw ? "text-green-600" : "text-red-600"
+              !isWinner && !draw ? "text-green-600" : "text-red-600"
             }`}
           >{`${
-            winner || draw ? "Partida finalizada" : "Juego en progreso"
+            isWinner || draw ? "Partida finalizada" : "Juego en progreso"
           }`}</p>
         </div>
         <div className="grid grid-cols-[repeat(3,1fr)] gap-2">
@@ -148,13 +163,18 @@ export default function Home() {
           })}
         </div>
       </div>
-      {winner || draw ? (
+      {isWinner || draw ? (
         <div className="flex flex-col items-center mt-6">
           <p className="text-xl font-bold mb-4">{title}</p>
           <Button text="Volver a Jugar" action={reset} />
         </div>
       ) : null}
-      <Button text="Ver Ranking" action={showRanking} />
+      <Button
+        text="Ver Ranking"
+        action={() => {
+          router.push("/ranking");
+        }}
+      />
     </div>
   );
 }
