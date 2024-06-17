@@ -1,5 +1,6 @@
 {
-  "/ranking/page": "app/ranking/page.js",
   "/page": "app/page.js",
-  "/api/ranking/route": "app/api/ranking/route.js"
+  "/api/ranking/route": "app/api/ranking/route.js",
+  "/api/play/route": "app/api/play/route.js",
+  "/ranking/page": "app/ranking/page.js"
 }
