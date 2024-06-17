@@ -18,7 +18,7 @@ Como base de datos para almacenar el resultados de las distintas partidas, se ha
 
 El proyecto presenta la siguiente organización:
 
-```
+```text
 TIC-TAC-TOE
     |_ __tests__
         |_ Button.test.js
