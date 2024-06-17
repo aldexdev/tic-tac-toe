@@ -3,6 +3,5 @@
     "paths": {
       "@/*": ["./src/*"]
     }
-  },
-  "preset": "@shelf/jest-mongodb"
+  }
 }

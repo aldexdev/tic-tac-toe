@@ -45,6 +45,7 @@ export default function Home() {
     checkResult(boardState);
   }, [boardState, userTurn]);
 
+  // API call to get an AI move
   const aiPlay = async (board) => {
     try {
       const res = await fetch("http://localhost:3000/api/play/", {
@@ -70,6 +71,7 @@ export default function Home() {
     }
   };
 
+  // method to know the game final state
   const checkResult = async (board) => {
     // board is filled
     const allFilled = Object.values(board).every((cell) => cell !== "");
@@ -103,6 +105,7 @@ export default function Home() {
     }
   };
 
+  // method to start diffrent game
   const reset = () => {
     setBoardState({
       0: "",

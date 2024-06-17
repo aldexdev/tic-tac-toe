@@ -1,12 +1,12 @@
 export const getBestMove = (board) => {
-  // Función para clonar el tablero
+  // method to clone a board
   function cloneBoard(board) {
     return { ...board };
   }
 
-  // Función para verificar si hay un ganador
+  // method to chech if there is a winner
   function checkWinner(board) {
-    const winningCombinations = [
+    const winCombs = [
       [0, 1, 2],
       [3, 4, 5],
       [6, 7, 8], // Filas
@@ -16,8 +16,7 @@ export const getBestMove = (board) => {
       [0, 4, 8],
       [2, 4, 6], // Diagonales
     ];
-
-    for (let [a, b, c] of winningCombinations) {
+    for (let [a, b, c] of winCombs) {
       if (board[a] && board[a] === board[b] && board[a] === board[c]) {
         return board[a];
       }
@@ -25,18 +24,17 @@ export const getBestMove = (board) => {
     return null;
   }
 
-  // Función para obtener las celdas vacías
+  // method to get the empty cells
   function getEmptyCells(board) {
     return Object.keys(board).filter((key) => board[key] === "");
   }
 
-  // Algoritmo MiniMax
+  // minmax algorithm
   function minimax(board, depth, isMaximizing) {
     const winner = checkWinner(board);
     if (winner === "X") return { score: -10 + depth };
     if (winner === "O") return { score: 10 - depth };
     if (getEmptyCells(board).length === 0) return { score: 0 };
-
     if (isMaximizing) {
       let bestScore = -Infinity;
       let bestMove = null;
@@ -66,10 +64,10 @@ export const getBestMove = (board) => {
     }
   }
 
-  // Ejecutar el algoritmo MiniMax para encontrar la mejor jugada
+  // get the best play based on minmax
   let bestMove = minimax(board, 0, true).move;
 
-  // Crear un nuevo tablero con la mejor jugada
+  // create a new board containing the play
   let newBoard = cloneBoard(board);
   if (bestMove !== null) {
     newBoard[bestMove] = "O";

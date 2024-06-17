@@ -1,3 +1,4 @@
+// update a ranking based on the final state of a game
 export const updatedObject = (player, ranking) => {
   if (player === "X") {
     return {

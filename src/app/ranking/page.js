@@ -10,14 +10,21 @@ export default function Component() {
   const router = useRouter();
 
   useEffect(() => {
+    const getRankingData = async () => {
+      try {
+        const rankingData = await getRanking();
+        if (rankingData) {
+          setRanking(rankingData);
+        }
+      } catch (error) {
+        console.log("Failed to fetch ranking data:", error);
+      }
+    };
+
     getRankingData();
   }, []);
 
-  const getRankingData = async () => {
-    const rankingData = await getRanking();
-    setRanking(rankingData);
-  };
-
+  // aux method to get a correct sum to PJs field
   const safeSum = (a, b, c) => {
     return (a || 0) + (b || 0) + (c || 0);
   };

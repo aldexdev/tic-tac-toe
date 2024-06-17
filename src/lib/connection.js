@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const MONGODB_URI = process.env.NEXT_PUBLIC_MONGODB_URI;
 
 const connect = async () => {
+  // get the connection state
   const connectionState = mongoose.connection.readyState;
 
   if (connectionState === 1) {
@@ -16,6 +17,7 @@ const connect = async () => {
   }
 
   try {
+    // connect database
     mongoose.connect(MONGODB_URI, {
       dbName: "restapinext14",
       bufferCommands: false,

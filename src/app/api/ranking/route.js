@@ -3,7 +3,9 @@ import Ranking from "@/models/Ranking";
 import { updatedObject } from "@/lib/updateRanking";
 import connect from "@/lib/connection";
 
+// POST req to create a new ranking
 export async function POST(req, res) {
+  // empty ranking
   const newRanking = new Ranking({
     playerX: {
       won: 0,
@@ -27,6 +29,7 @@ export async function POST(req, res) {
   }
 }
 
+// PUT req to update an existing Ranking
 export async function PUT(req, res) {
   try {
     const { winner, ranking } = await req.json();
@@ -45,9 +48,11 @@ export async function PUT(req, res) {
   }
 }
 
+// GET req to get the existing rankings
 export async function GET(req, res) {
   try {
     await connect();
+    // find all docs matching the model
     const rank = await Ranking.find({});
     const response = JSON.stringify(rank);
     return new NextResponse(response);
