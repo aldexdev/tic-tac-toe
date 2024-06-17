@@ -3,32 +3,6 @@ import Ranking from "@/models/Ranking";
 import { updatedObject } from "@/lib/updateRanking";
 import connect from "@/lib/connection";
 
-// POST req to create a new ranking
-export async function POST(req, res) {
-  // empty ranking
-  const newRanking = new Ranking({
-    playerX: {
-      won: 0,
-      lost: 0,
-      tied: 0,
-    },
-    playerO: {
-      won: 0,
-      lost: 0,
-      tied: 0,
-    },
-  });
-  try {
-    await connect();
-    await newRanking.save();
-    return NextResponse.json(newRanking);
-  } catch (error) {
-    return new NextResponse("No se pudo crear el ranking: " + error, {
-      status: 500,
-    });
-  }
-}
-
 // PUT req to update an existing Ranking
 export async function PUT(req, res) {
   try {
