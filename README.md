@@ -83,7 +83,7 @@ yarn install
 
 Se deben configurar las variables de entorno antes de arrancar la app:
 
-```js
+```text
 NEXT_PUBLIC_PLAY_API_URL=<URL de la ruta a la API para obtener una jugada de la CPU>
 NEXT_PUBLIC_RANKING_API_URL=<URL de la ruta a la API para obtener información del ranking>
 NEXT_PUBLIC_MONGODB_URI<URI de la base de datos de MongoDB>
@@ -107,7 +107,7 @@ yarn dev
 
 ## Ejecución de tests
 
-Como ya se ha mencionado, se han realizado ciertos tests de algunas de las aplicaciones utilizadas. Se debe ejecutar:
+Como ya se ha mencionado, se han realizado ciertos tests de algunas de las funciones utilizadas. La configuración está creada de tal manera que sólo se debe ejecutar:
 
 ```shell
 npm test
