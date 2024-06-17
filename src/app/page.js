@@ -47,7 +47,7 @@ export default function Home() {
 
   const aiPlay = async (board) => {
     try {
-      const res = await fetch("http://localhost:3000/api/play", {
+      const res = await fetch(process.env.NEXT_PUBLIC_PLAY_API_URL, {
         method: "POST",
         body: JSON.stringify(board),
         headers: {

@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI =
-  "mongodb+srv://aldex:Aa12%40marzo@tictactoe.khfzyxy.mongodb.net/?retryWrites=true&w=majority&appName=TicTacToe";
+const MONGODB_URI = process.env.NEXT_PUBLIC_MONGODB_URI;
 
 const connect = async () => {
   const connectionState = mongoose.connection.readyState;

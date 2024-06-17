@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 export const getRanking = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/ranking", {
+    const res = await fetch(process.env.NEXT_PUBLIC_RANKING_API_URL, {
       method: "GET",
       headers: {
         "content-type": "application/json",
@@ -18,7 +18,7 @@ export const getRanking = async () => {
 
 export const createRanking = async () => {
   try {
-    const res = await fetch("http://localhost:3000/api/ranking", {
+    const res = await fetch(process.env.NEXT_PUBLIC_RANKING_API_URL, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -36,7 +36,7 @@ export const updateRanking = async (winner, ranking) => {
     ranking: ranking,
   };
   try {
-    const res = await fetch("http://localhost:3000/api/ranking", {
+    const res = await fetch(process.env.NEXT_PUBLIC_RANKING_API_URL, {
       method: "PUT",
       body: JSON.stringify(args),
       headers: {
